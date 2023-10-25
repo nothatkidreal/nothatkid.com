@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+textarea {
+  text-align: left;
+  vertical-align: top;
+  height: 100vh;
+  width: 100vw;
+}
+</style>
+<style id="themeStyle">
+body, textarea {
+  background-color: white;
+  color: black;
+}
+</style>
+</head>
+<body>
+
+<select id="themeSelect" onchange="changeTheme()">
+  <option value="classic">Classic</option>
+  <option value="dark">Dark Mode</option>
+  <option value="hacker">Hacker</option>
+  <option value="solarizedLight">Solarized Light</option>
+  <option value="solarizedDark">Solarized Dark</option>
+  <option value="retro">Retro</option>
+  <option value="neon">Neon</option>
+  <option value="pastel">Pastel</option>
+  <option value="monokai">Monokai</option>
+  <option value="dracula">Dracula</option>
+  <option value="nord">Nord</option>
+  <option value="zenburn">Zenburn</option>
+  <option value="gruvboxLight">Gruvbox Light</option>
+  <option value="gruvboxDark">Gruvbox Dark</option>
+  <option value="material">Material</option>
+</select>
+
+<textarea id="inputText" placeholder="Type your text here"></textarea>
+<button onclick="go()">GO</button>
+
+<script>
+let inputText = document.getElementById('inputText');
+let text = '';
+let index = 0;
+
+function go() {
+    text = inputText.value;
+    inputText.value = '';
+    inputText.placeholder = '';
+    document.body.style.height = '100vh';
+    document.body.style.width = '100vw';
+    inputText.addEventListener('keydown', autoCorrect);
+}
+
+function autoCorrect(e) {
+    if (index < text.length) {
+        e.preventDefault();
+        inputText.value += text[index];
+        index++;
+    }
+}
+
+function changeTheme() {
+    let theme = document.getElementById('themeSelect').value;
+    let themeStyle = document.getElementById('themeStyle');
+    
+    switch(theme) {
+        case 'classic':
+            themeStyle.innerHTML = "body, textarea { background-color: white; color: black; }";
+            break;
+        case 'dark':
+            themeStyle.innerHTML = "body, textarea { background-color: black; color: white; }";
+            break;
+        case 'hacker':
+            themeStyle.innerHTML = "body, textarea { background-color: black; color: lime; }";
+            break;
+        case 'solarizedLight':
+            themeStyle.innerHTML = "body, textarea { background-color: #fdf6e3; color: #657b83; }";
+            break;
+        case 'solarizedDark':
+            themeStyle.innerHTML = "body, textarea { background-color: #002b36; color: #839496; }";
+            break;
+        case 'retro':
+            themeStyle.innerHTML = "body, textarea { background-color: #f5deb3; color: #8b4513; }";
+            break;
+        case 'neon':
+            themeStyle.innerHTML = "body, textarea { background-color: #000080; color: #00ffff; }";
+            break;
+        case 'pastel':
+            themeStyle.innerHTML = "body, textarea { background-color: #ffefd5; color: #ff69b4; }";
+            break;
+        case 'monokai':
+            themeStyle.innerHTML = "body, textarea { background-color: #272822; color: #f8f8f2; }";
+            break;
+        case 'dracula':
+            themeStyle.innerHTML = "body, textarea { background-color: #282a36; color: #f8f8f2; }";
+            break;
+        case 'nord':
+            themeStyle.innerHTML = "body, textarea { background-color: #2e3440; color: #d8dee9; }";
+            break;
+        case 'zenburn':
+            themeStyle.innerHTML = "body, textarea { background-color: #3f3f3f; color: #dcdccc; }";
+            break;
+        case 'gruvboxLight':
+            themeStyle.innerHTML = "body, textarea { background-color: #fbf1c7; color: #3c3836; }";
+            break;
+        case 'gruvboxDark':
+            themeStyle.innerHTML = "body, textarea { background-color: #282828; color: #ebdbb2; }";
+            break;
+        case 'material':
+            themeStyle.innerHTML = "body, textarea { background-color: #263238; color: #eeffff; }";
+            break;
+    }
+}
+</script>
+
+</body>
+</html>
