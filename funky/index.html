@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<meta name="twitter:title" content="Funky Town but hatkid">
+<meta name="twitter:description" content="hatkid do be feelin a little funky today">
+<html>
+<head>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: black;
+            color: white;
+            font-family: Arial, sans-serif;
+            cursor: pointer;
+        }
+
+        #video-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            display: none;
+        }
+
+        video {
+            width: 100%;
+            height: 100%;
+        }
+
+        #text {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 14px;
+            line-height: 1.6;
+            text-align: center;
+        }
+    </style>
+</head>
+<body onclick="startVideo()">
+
+<div id="video-container">
+    <video id="video" controls>
+        <source src="funky.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+</div>
+
+<p id="text">Click anywhere to play!</p>
+
+<script>
+    const videoContainer = document.getElementById('video-container');
+    const video = document.getElementById('video');
+    const textElement = document.getElementById('text');
+    let count = 0;
+    let started = false;
+    let userIP = '';
+
+    function fetchUserIP() {
+        fetch('https://api64.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                userIP = data.ip;
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    fetchUserIP();
+
+    function getRandomScreenInfo() {
+        const screenInfo = [
+            screen.width !== undefined ? `Screen width: ${screen.width}` : null,
+            screen.height !== undefined ? `Screen height: ${screen.height}` : null,
+            screen.availWidth !== undefined ? `Available screen width: ${screen.availWidth}` : null,
+            screen.availHeight !== undefined ? `Available screen height: ${screen.availHeight}` : null,
+            screen.colorDepth !== undefined ? `Color depth: ${screen.colorDepth}` : null,
+            screen.pixelDepth !== undefined ? `Pixel depth: ${screen.pixelDepth}` : null,
+            navigator.userAgent !== undefined ? `User Agent: ${navigator.userAgent}` : null,
+            navigator.platform !== undefined ? `Platform: ${navigator.platform}` : null,
+            navigator.language !== undefined ? `Language: ${navigator.language}` : null,
+            navigator.cookieEnabled !== undefined ? `Cookies Enabled: ${navigator.cookieEnabled}` : null,
+            navigator.doNotTrack !== undefined ? `Do Not Track Enabled: ${navigator.doNotTrack}` : null,
+            navigator.product !== undefined ? `Product: ${navigator.product}` : null,
+            navigator.vendor !== undefined ? `Vendor: ${navigator.vendor}` : null,
+            navigator.hardwareConcurrency !== undefined ? `Hardware Concurrency: ${navigator.hardwareConcurrency}` : null,
+            navigator.maxTouchPoints !== undefined ? `Max Touch Points: ${navigator.maxTouchPoints}` : null,
+            navigator.onLine !== undefined ? `Online: ${navigator.onLine}` : null,
+            navigator.bluetooth !== undefined ? `Bluetooth enabled: ${navigator.bluetooth}` : null,
+            navigator.connection !== undefined ? `Connection type: ${navigator.connection.effectiveType}` : null,
+            navigator.geolocation !== undefined ? `Geolocation available: ${navigator.geolocation}` : null,
+            navigator.mediaDevices !== undefined ? `Media Devices available: ${navigator.mediaDevices}` : null,
+            navigator.keyboard !== undefined ? `Keyboard present: ${navigator.keyboard}` : null,
+            navigator.clipboard !== undefined ? `Clipboard available: ${navigator.clipboard}` : null,
+            navigator.permissions !== undefined ? `Permissions available: ${navigator.permissions}` : null,
+            navigator.serviceWorker !== undefined ? `Service Worker present: ${navigator.serviceWorker}` : null,
+            window.screenLeft !== undefined ? `Screen Left: ${window.screenLeft}` : null,
+            window.screenTop !== undefined ? `Screen Top: ${window.screenTop}` : null,
+            window.outerWidth !== undefined ? `Outer Width: ${window.outerWidth}` : null,
+            window.outerHeight !== undefined ? `Outer Height: ${window.outerHeight}` : null,
+            window.devicePixelRatio !== undefined ? `Device Pixel Ratio: ${window.devicePixelRatio}` : null,
+            document.hasFocus !== undefined ? `Document has focus: ${document.hasFocus()}` : null,
+            document.hidden !== undefined ? `Document is hidden: ${document.hidden}` : null,
+            `${userIP}`,
+        ];
+        const filteredInfo = screenInfo.filter(info => info !== null);
+        return filteredInfo[Math.floor(Math.random() * filteredInfo.length)];
+    }
+
+    function startVideo() {
+        if (!started) {
+            textElement.innerHTML = getRandomScreenInfo();
+            videoContainer.style.display = 'block';
+            started = true;
+
+            const bpm = 122;
+            const interval = 60000 / bpm; // Interval in milliseconds
+            const intervalId = setInterval(function () {
+                count++;
+                textElement.innerHTML = getRandomScreenInfo();
+                if (count === 39) {
+                    clearInterval(intervalId);
+                }
+            }, interval);
+
+            video.play();
+
+            video.addEventListener('ended', function () {
+                clearInterval(intervalId);
+            });
+        }
+    }
+</script>
+
+</body>
+</html>
